@@ -1,0 +1,30 @@
+{
+  "name": "clkingdom",
+  "version": "1.0.0",
+  "description": "A Kingdom in your Command Line",
+  "main": "build/index.js",
+  "bin": {
+    "clkingdom": "bin/begin"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "begin"
+  ],
+  "author": "Joel Huggett",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^13.1.8",
+    "arg": "^4.1.2",
+    "chalk": "^3.0.0",
+    "clear": "^0.1.0",
+    "esm": "^3.2.25",
+    "figlet": "^1.2.4",
+    "inquirer": "^7.0.3"
+  }
+}
