@@ -2,7 +2,7 @@
   "name": "clkingdom",
   "version": "1.0.0",
   "description": "A Kingdom in your Command Line",
-  "main": "build/index.js",
+  "main": "build/src/index.js",
   "bin": {
     "clkingdom": "bin/begin"
   },
@@ -25,6 +25,9 @@
     "clear": "^0.1.0",
     "esm": "^3.2.25",
     "figlet": "^1.2.4",
-    "inquirer": "^7.0.3"
+    "inquirer": "^7.0.3",
+    "jsonfile": "^5.0.0",
+    "mkdirp": "^0.5.1",
+    "uuid": "^3.4.0"
   }
 }
