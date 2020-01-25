@@ -1,8 +1,12 @@
 {
   "name": "clkingdom",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Kingdom in your Command Line",
   "main": "build/src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhuggett/clkingdom.git"
+  },
   "bin": {
     "clkingdom": "bin/begin"
   },
@@ -16,6 +20,10 @@
     "cli",
     "begin"
   ],
+  "bugs": {
+    "url": "https://github.com/jhuggett/clkingdom/issues"
+  },
+  "homepage": "https://github.com/jhuggett/clkingdom",
   "author": "Joel Huggett",
   "license": "ISC",
   "dependencies": {
