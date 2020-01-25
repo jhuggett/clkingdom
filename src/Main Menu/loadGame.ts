@@ -8,10 +8,63 @@ import { goBack } from "../commonCMD.json"
 
 import { startGame } from "../Game/game"
 
+import { confirm } from "../Misc/confirm"
 
 
+function identifyManifest(save, manifests) {
+    manifests.forEach(manifest => {
+        if (manifest.displayData === save) {
+            // select this save
+            return manifest
+        }
+    });
 
+    return {
+        id: "",
+        name: "Manifest Missing",
+        createdOn: "Unknown Date",
+        displayData: "Manifest Missing" + " (" + "Unknown Date" + ")"
+    } 
+}
 
+async function interactWith(save, manifests) {
+    const manifest = identifyManifest(save, manifests)
+
+    const options = ["Load", "Delete", goBack]
+
+    await inquirer.prompt([
+        {
+            type: "list",
+            name: "selection",
+            message: "Select an option: ",
+            choices: options
+        }
+    ])
+    .then(async answers => {
+        switch (answers.selection) {
+            case goBack: {
+                return
+            }
+
+            case "Load": {
+                //todo
+
+                return
+            }
+
+            case "Delete": {
+                if (await confirm("Delete this save ?")) {
+                    fs.rmdirSync("data/" + manifest.id as string + "", { recursive: true });
+                }
+            }
+
+            default: {
+                return
+            }
+        }
+    })
+
+}
 
 
 export async function goToLoadGame() {
@@ -24,7 +77,21 @@ export async function goToLoadGame() {
 
     var message = "Select a save:"
     
-    var options: Array<string> = fs.readdirSync("./data/")
+    var options: Array<string> = []
+    var manifests = []
+    
+    try {
+        const saves = fs.readdirSync("data/")
+        saves.forEach(id => {
+            const data = getManifestData(id)
+            manifests.push(data)
+            options.push(data.displayData)
+        });
+    } catch (error) {
+        //console.log(error);
+        
+    }
+    
 
     
     if (options.length == 0) { // todo: check if no availible saves 
@@ -54,10 +121,31 @@ export async function goToLoadGame() {
             }
 
             default: {
-                break
+                await interactWith(answers.selection, manifests)
             }
         }
     })
 
 
+}
+
+function getManifestData(id: String) {
+    try {
+        var obj = JSON.parse(fs.readFileSync("data/" + id + "/manifest.json"))
+        return {
+            id: obj.id,
+            name: obj.name,
+            createdOn: obj.createdOn,
+            displayData: obj.name + " (" + obj.createdOn + ")"
+        }
+    } catch (error) {
+        
+        return {
+            id: id,
+            name: "Manifest Missing",
+            createdOn: "Unknown Date",
+            displayData: obj.name + " (" + obj.createdOn + ")"
+        }
+    }
+    
 }

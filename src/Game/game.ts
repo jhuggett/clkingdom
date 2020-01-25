@@ -41,14 +41,14 @@ export async function startGame() {
             }
         }
     ])
-    .then(answers => {
+    .then(async answers => {
         const newSettlement = new Settlement(answers.settlementName)
         const newKingdom = new Kingdom()
         newKingdom.settlements.push(newSettlement)
-
+        newKingdom.name = newSettlement.name
         const gameHandler = new GameHandler(newKingdom)
-
-        saveGame(gameHandler)
+        
+        await saveGame(gameHandler)
 
 
     })
