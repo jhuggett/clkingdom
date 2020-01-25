@@ -11,24 +11,12 @@ import { startGame } from "../Game/game"
 import { confirm } from "../Misc/confirm"
 
 
-function identifyManifest(save, manifests) {
-    manifests.forEach(manifest => {
-        if (manifest.displayData === save) {
-            // select this save
-            return manifest
-        }
-    });
-
-    return {
-        id: "",
-        name: "Manifest Missing",
-        createdOn: "Unknown Date",
-        displayData: "Manifest Missing" + " (" + "Unknown Date" + ")"
-    } 
+async function identifyManifest(save, manifests) {
+    return manifests.find((manifest) => { return manifest.displayData == save});
 }
 
 async function interactWith(save, manifests) {
-    const manifest = identifyManifest(save, manifests)
+    const manifest = await identifyManifest(save, manifests)
 
     const options = ["Load", "Delete", goBack]
 
@@ -43,23 +31,29 @@ async function interactWith(save, manifests) {
     .then(async answers => {
         switch (answers.selection) {
             case goBack: {
+                await goToLoadGame()
                 return
             }
 
             case "Load": {
                 //todo
-
+                await goToLoadGame()
                 return
             }
 
             case "Delete": {
                 if (await confirm("Delete this save ?")) {
-                    fs.rmdirSync("data/" + manifest.id as string + "", { recursive: true });
+                    console.log("data/" + manifest.id);
+                    
+                    fs.rmdirSync("data/" + manifest.id, { recursive: true });
+
+                    await goToLoadGame()
+                    return 
                 }
             }
 
             default: {
-                return
+                await goToLoadGame()
             }
         }
     })
