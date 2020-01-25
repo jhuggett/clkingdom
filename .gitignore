@@ -1,2 +1,5 @@
 build/
+.npmrc
 node_modules/
+.DS_Store
+data/

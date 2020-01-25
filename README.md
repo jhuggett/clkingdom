@@ -1,3 +1,3 @@
 # CL Kingdom
 
-TODO:Description
+A kingdom in your command line.
