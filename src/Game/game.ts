@@ -7,6 +7,8 @@ import { GameHandler } from "./GameHandler"
 import { Kingdom } from "./Kingdom"
 import { Settlement } from "./Settlement"
 
+import { begin } from "./Main Loop/begin"
+
 async function confirmNewGame() {
     const questions = []
     questions.push({
@@ -50,7 +52,7 @@ export async function startGame() {
         
         await saveGame(gameHandler)
 
-
+        await begin(gameHandler)
     })
 
 }

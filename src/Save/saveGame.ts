@@ -4,12 +4,12 @@ import { GameHandler } from "../Game/GameHandler"
 import { Kingdom } from "../Game/Kingdom"
 import { Settlement } from "../Game/Settlement"
 
+import { prefixPath } from "../../path.json"
+
 function createDir(path) {
     try {
-        fs.mkdirSync(path)
+        fs.mkdirSync(prefixPath + path)
     } catch (error) {
-        console.log(error);
-        
     }
 }
 
@@ -36,15 +36,6 @@ function writeManifest(gameHandler: GameHandler) {
     writeFile(path, data)
 }
 
-function writeKingdomData(kingdom: Kingdom) {
-    const data = {
-        id: kingdom.id
-    }
-    const file = "data/" + kingdom.id + "/kingdom.json"
-    
-    writeFile(file, data)
-}
-
 function writeKingdomsData(gameHandler: GameHandler) {
     // iterate when multiple kingdoms
     const kingdomPath = "data/" + gameHandler.kingdom.id + "/kingdoms/" + gameHandler.kingdom.id
@@ -66,7 +57,8 @@ function writeSettlementsData(path: String, kingdom: Kingdom) {
     kingdom.settlements.forEach(settlement => {
         const data = {
             id: settlement.id,
-            name: settlement.name
+            name: settlement.name,
+            pop: settlement.pop
         }
 
         const filePath = settlementsPath + "/" + settlement.id + ".json"
@@ -76,17 +68,28 @@ function writeSettlementsData(path: String, kingdom: Kingdom) {
 
 export async function saveGame(gameHandler: GameHandler) {
     console.log("Saving game...");
+    console.log(1);
     
     checkForDataFolder()
+    console.log(2);
+    
     checkForSaveFolder(gameHandler.kingdom.id)
+    console.log(3);
+    
     writeManifest(gameHandler)
+    console.log(4);
+    
     checkForKingdomsFolder(gameHandler.kingdom.id)
+    console.log(5);
+    
     writeKingdomsData(gameHandler)
+    console.log(6);
+    
 }
 
 function writeFile(path, data) {
     try {
-        fs.writeFileSync(path, JSON.stringify(data))
+        fs.writeFileSync(prefixPath + path, JSON.stringify(data))
     } catch (error) {
         console.log(error);
         

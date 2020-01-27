@@ -5,6 +5,7 @@ const fs = require("fs")
 
 import { goBack } from "../commonCMD.json"
 
+import { prefixPath } from "../../path.json"
 
 import { startGame } from "../Game/game"
 
@@ -45,7 +46,7 @@ async function interactWith(save, manifests) {
                 if (await confirm("Delete this save ?")) {
                     console.log("data/" + manifest.id);
                     
-                    fs.rmdirSync("data/" + manifest.id, { recursive: true });
+                    fs.rmdirSync(prefixPath + "data/" + manifest.id, { recursive: true });
 
                     await goToLoadGame()
                     return 
@@ -75,7 +76,7 @@ export async function goToLoadGame() {
     var manifests = []
     
     try {
-        const saves = fs.readdirSync("data/")
+        const saves = fs.readdirSync(prefixPath + "data/")
         saves.forEach(id => {
             const data = getManifestData(id)
             manifests.push(data)
@@ -125,9 +126,9 @@ export async function goToLoadGame() {
 
 function getManifestData(id: String) {
     try {
-        var obj = JSON.parse(fs.readFileSync("data/" + id + "/manifest.json"))
+        var obj = JSON.parse(fs.readFileSync(prefixPath + "data/" + id + "/manifest.json"))
 
-       
+        
         //var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const display = new Date(obj.createdOn).toLocaleString("en-US")
 
