@@ -80,7 +80,13 @@ export async function goToLoadGame() {
         saves.forEach(id => {
             const data = getManifestData(id)
             manifests.push(data)
-            options.push(data.displayData)
+            
+        });
+        manifests = manifests.sort((a, b) => {
+            return b.createdOn - a.createdOn
+        })
+        manifests.forEach(manifest => {
+            options.push(manifest.displayData)
         });
     } catch (error) {
         //console.log(error);
