@@ -126,11 +126,16 @@ export async function goToLoadGame() {
 function getManifestData(id: String) {
     try {
         var obj = JSON.parse(fs.readFileSync("data/" + id + "/manifest.json"))
+
+       
+        //var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const display = new Date(obj.createdOn).toLocaleString("en-US")
+
         return {
             id: obj.id,
             name: obj.name,
             createdOn: obj.createdOn,
-            displayData: obj.name + " (" + obj.createdOn + ")"
+            displayData: obj.name + " (" + display + ")"
         }
     } catch (error) {
         
