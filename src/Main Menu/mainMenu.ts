@@ -33,7 +33,6 @@ async function mainMenu() {
     return answers.choice
 }
 
-
 export async function beginCLI(options) {
     
     if (options.newGame) {
@@ -46,6 +45,7 @@ export async function beginCLI(options) {
 
     while (loopAgain) {
         clear()
+        
         console.log(
             chalk.red.bold.dim(
                 figlet.textSync('CL Kingdom', { horizontalLayout: 'full', font: "Small Slant" })
@@ -57,7 +57,7 @@ export async function beginCLI(options) {
                 "Vers. " + jsonPackage.version
             )
         );
-        
+            
 
         const choice = await mainMenu()
     

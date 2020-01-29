@@ -55,36 +55,21 @@ function writeSettlementsData(path: String, kingdom: Kingdom) {
     const settlementsPath = path + "/settlements"
     createDir(settlementsPath)
     kingdom.settlements.forEach(settlement => {
-        const data = {
-            id: settlement.id,
-            name: settlement.name,
-            pop: settlement.pop
-        }
+        console.log(settlement.resources.getData());
+        
+        const data = settlement.getData()
 
         const filePath = settlementsPath + "/" + settlement.id + ".json"
         writeFile(filePath, data)
     });
 }
 
-export async function saveGame(gameHandler: GameHandler) {
-    console.log("Saving game...");
-    console.log(1);
-    
-    checkForDataFolder()
-    console.log(2);
-    
-    checkForSaveFolder(gameHandler.kingdom.id)
-    console.log(3);
-    
-    writeManifest(gameHandler)
-    console.log(4);
-    
-    checkForKingdomsFolder(gameHandler.kingdom.id)
-    console.log(5);
-    
-    writeKingdomsData(gameHandler)
-    console.log(6);
-    
+export async function saveGame(gameHandler: GameHandler) {    
+    checkForDataFolder()    
+    checkForSaveFolder(gameHandler.kingdom.id)    
+    writeManifest(gameHandler)    
+    checkForKingdomsFolder(gameHandler.kingdom.id)    
+    writeKingdomsData(gameHandler)    
 }
 
 function writeFile(path, data) {

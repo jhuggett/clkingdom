@@ -76,21 +76,26 @@ export async function goToLoadGame() {
     var manifests = []
     
     try {
+        
         const saves = fs.readdirSync(prefixPath + "data/")
-        saves.forEach(id => {
+
+        for await (const id of saves) {
+            
             const data = getManifestData(id)
             manifests.push(data)
-            
-        });
+        }
+        
+        
         manifests = manifests.sort((a, b) => {
             return b.createdOn - a.createdOn
         })
-        manifests.forEach(manifest => {
+        
+        for (const manifest of manifests) {
             options.push(manifest.displayData)
-        });
+        }
+        
     } catch (error) {
         //console.log(error);
-        
     }
     
 
@@ -101,7 +106,7 @@ export async function goToLoadGame() {
     } else {
         options.push(goBack)
     }
-
+    
     await inquirer.prompt([
         {
             type: "list",
