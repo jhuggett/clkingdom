@@ -1,6 +1,6 @@
 {
   "name": "clkingdom",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A Kingdom in your Command Line",
   "main": "build/src/index.js",
   "repository": {
