@@ -1,5 +1,4 @@
 build/
-path.json
 .npmrc
 node_modules/
 .DS_Store
