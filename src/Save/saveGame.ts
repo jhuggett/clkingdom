@@ -4,7 +4,7 @@ import { GameHandler } from "../Game/GameHandler"
 import { Kingdom } from "../Game/Kingdom"
 import { Settlement } from "../Game/Settlement"
 
-import { prefixPath } from "../../path.json"
+import { prefixPath } from "../path.json"
 
 function createDir(path) {
     try {

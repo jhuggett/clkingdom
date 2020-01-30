@@ -21,7 +21,9 @@ export async function cli(args) {
     let options = parseArgumentsIntoOptions(args)
 
     var cleanedPath = __dirname.split("/")
+    const currentPath = cleanedPath.join("/") + "/"
     cleanedPath.pop()
+    
     cleanedPath.pop()
     const finalPath = cleanedPath.join("/") + "/"
 
@@ -30,7 +32,7 @@ export async function cli(args) {
     }
     const json = JSON.stringify(path)
     try {
-        fs.writeFileSync(finalPath + "path.json", json)        
+        fs.writeFileSync(currentPath + "path.json", json)        
     }
     catch (e) {
         console.log(e);

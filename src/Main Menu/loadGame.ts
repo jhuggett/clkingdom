@@ -5,7 +5,7 @@ const fs = require("fs")
 
 import { goBack } from "../commonCMD.json"
 
-import { prefixPath } from "../../path.json"
+import { prefixPath } from "../path.json"
 
 import { startGame } from "../Game/game"
 
