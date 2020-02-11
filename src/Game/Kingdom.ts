@@ -3,17 +3,31 @@ const uuidv4 = require("uuid/v4")
 import { Settlement } from "./Settlement";
 
 export class Kingdom {
-    id: String
+    id: string
     settlements: Array<Settlement> = []
 
-    createdOn: Number
+    createdOn: number
 
-    name: String
+    name: string
 
     constructor() {
         this.id = uuidv4()
         
         this.createdOn = Date.now()
         
+    }
+
+    setData(data) {
+        this.id = data.id
+        this.name = data.name
+        this.createdOn = data.createdOn
+    }
+
+    getData() {
+        return {
+            id: this.id,
+            name: this.name,
+            createdOn: this.createdOn
+        }
     }
 }

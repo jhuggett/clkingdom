@@ -11,6 +11,9 @@ import { startGame } from "../Game/game"
 
 import { confirm } from "../Misc/confirm"
 
+import { loadGame } from "../Save/loadGame"
+
+import { continueGame } from "../Game/Main Loop/begin"
 
 async function identifyManifest(save, manifests) {
     return manifests.find((manifest) => { return manifest.displayData == save});
@@ -37,8 +40,8 @@ async function interactWith(save, manifests) {
             }
 
             case "Load": {
-                //todo
-                await goToLoadGame()
+                const context = loadGame(manifest.id)
+                await continueGame(context)
                 return
             }
 
