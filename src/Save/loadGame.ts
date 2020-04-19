@@ -47,9 +47,9 @@ export function loadGame(id: String) : GameHandler {
     kingdom.settlements = settlements
 
 
+    var manifest = JSON.parse(fs.readFileSync(prefixPath + "data/" + id + "/manifest.json").toString())
 
 
-
-    return new GameHandler(kingdom)
+    return new GameHandler(kingdom, manifest.year, manifest.month)
 }
 

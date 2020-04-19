@@ -29,7 +29,9 @@ function writeManifest(gameHandler: GameHandler) {
     const data = {
         id: gameHandler.kingdom.id,
         name: gameHandler.kingdom.name,
-        createdOn: gameHandler.kingdom.createdOn
+        createdOn: gameHandler.kingdom.createdOn,
+        year: gameHandler.year,
+        month: gameHandler.month
     }
     const path = "data/" + gameHandler.kingdom.id + "/manifest.json"
 
