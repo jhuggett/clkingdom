@@ -14,53 +14,66 @@ import { confirm } from "../Misc/confirm"
 import { loadGame } from "../Save/loadGame"
 
 import { continueGame } from "../Game/Main Loop/begin"
+import Terminal from "../Terminal/index.js";
 
 async function identifyManifest(save, manifests) {
     return manifests.find((manifest) => { return manifest.displayData == save});
 }
 
 async function interactWith(save, manifests) {
+    Terminal.write(
+        Terminal.color.blue(
+            Terminal.decoration.bold(
+                save
+            )
+        )
+    )
+
+    Terminal.newLine()
     const manifest = await identifyManifest(save, manifests)
 
-    const options = ["Load", "Delete", goBack]
+    const answer = await Terminal.listOfChoices(Terminal.decoration.bold(
+        Terminal.color.yellow(
+            "Select an option:"
+        )
+    ), ["Load", "Delete"], goBack)
 
-    await inquirer.prompt([
-        {
-            type: "list",
-            name: "selection",
-            message: "Select an option: ",
-            choices: options
+
+    switch (answer) {
+        case goBack: {
+            await goToLoadGame()
+            return
         }
-    ])
-    .then(async answers => {
-        switch (answers.selection) {
-            case goBack: {
-                await goToLoadGame()
-                return
-            }
 
-            case "Load": {
-                const context = loadGame(manifest.id)
-                await continueGame(context)
-                return
-            }
+        case "Load": {
+            const context = loadGame(manifest.id)
+            await continueGame(context)
+            return
+        }
 
-            case "Delete": {
-                if (await confirm("Delete this save ?")) {
-                    console.log("data/" + manifest.id);
-                    
+        case "Delete": {
+            Terminal.clear()
+            if (await Terminal.confirm("Delete this save?")) {
+                Terminal.clear() 
+                try {
                     fs.rmdirSync(prefixPath + "data/" + manifest.id, { recursive: true });
-
-                    await goToLoadGame()
-                    return 
+                    Terminal.writeWithNewLine("Successfully deleted!")
+                } catch (e) {
+                    Terminal.writeWithNewLine("Failed to delete: " + e.message)
                 }
-            }
+                
+                Terminal.newLine()
+                await Terminal.pressAnyKeyToContinue()
 
-            default: {
                 await goToLoadGame()
+                return 
             }
         }
-    })
+
+        default: {
+            await goToLoadGame()
+        }
+    }
 
 }
 
@@ -105,35 +118,33 @@ export async function goToLoadGame() {
     
     if (options.length == 0) { // todo: check if no availible saves 
         message = "No availible save..."
-        options = ["Start new game", goBack]
-    } else {
-        options.push(goBack)
+        options = ["Start new game"]
+    }
+
+    const answer = await Terminal.listOfChoices(Terminal.decoration.bold(
+        Terminal.color.yellow(
+            message
+        )
+    ), options, goBack)
+
+    
+    
+    switch (answer) {
+        case goBack: {
+            return
+        }
+
+        case "Start new game": {
+            await startGame()
+            break
+        }
+
+        default: {
+            Terminal.clear()
+            await interactWith(answer, manifests)
+        }
     }
     
-    await inquirer.prompt([
-        {
-            type: "list",
-            name: "selection",
-            message: message,
-            choices: options
-        }
-    ])
-    .then(async answers => {
-        switch (answers.selection) {
-            case goBack: {
-                return
-            }
-
-            case "Start new game": {
-                await startGame()
-                break
-            }
-
-            default: {
-                await interactWith(answers.selection, manifests)
-            }
-        }
-    })
 
 
 }

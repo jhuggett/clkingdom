@@ -8,18 +8,10 @@ import { Kingdom } from "./Kingdom"
 import { Settlement } from "./Settlement"
 
 import { begin } from "./Main Loop/begin"
+import Terminal from "../Terminal";
 
 async function confirmNewGame() {
-    const questions = []
-    questions.push({
-        type: "confirm",
-        name: "confirmNewGame",
-        message: "Start a new game ?",
-        default: false,
-    })
-
-    const answers = await inquirer.prompt(questions)
-    return answers.confirmNewGame
+    return await Terminal.confirm("Begin a new game?")
 }
 
 export async function startGame() {
@@ -30,29 +22,17 @@ export async function startGame() {
         return
     } 
 
-    clear()
-    await inquirer.prompt([
-        {
-            name: "settlementName",
-            message: "Settlement Name:",
-            validate: async input => {
-                if (input === "") {
-                    return "A name is required!"
-                }
-                return true
-            }
-        }
-    ])
-    .then(async answers => {
-        const newSettlement = new Settlement(answers.settlementName)
-        const newKingdom = new Kingdom()
-        newKingdom.settlements.push(newSettlement)
-        newKingdom.name = newSettlement.name
-        const gameHandler = new GameHandler(newKingdom)
-        
-        await saveGame(gameHandler)
+    Terminal.clear()
 
-        await begin(gameHandler)
-    })
+    const newSettlement = new Settlement(await Terminal.inputLine("Settlement Name"))
+
+    const newKingdom = new Kingdom()
+    newKingdom.settlements.push(newSettlement)
+    newKingdom.name = newSettlement.name
+    const gameHandler = new GameHandler(newKingdom, 0, 0)
+        
+    await saveGame(gameHandler)
+
+    await begin(gameHandler)
 
 }

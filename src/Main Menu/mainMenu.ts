@@ -3,14 +3,16 @@ import * as chalk from "chalk"
 
 import * as jsonPackage from "../../package.json";
 
-var figlet = require('figlet');
-var clear = require('clear');
+import Terminal from "../Terminal"
+
+import test from "../Testing"
 
 import { startGame } from "../Game/game"
 
 import { goToOptions } from "./options"
 
 import { goToLoadGame } from "./loadGame"
+import Snake from "../Testing/Snake.js";
 
 
 function checkForSaves() {
@@ -21,16 +23,11 @@ function checkForSaves() {
 
 
 async function mainMenu() {
-    const questions = []
-    questions.push({
-        type: "list",
-        name: "choice",
-        message: chalk.yellow.bold("Main Menu"),
-        choices: ["New Game", "Load Game", "Options", "Quit"],
-        default: "New Game"
-    })
-    const answers = await inquirer.prompt(questions)
-    return answers.choice
+    return await Terminal.listOfChoices(Terminal.decoration.bold(
+        Terminal.color.yellow(
+            "Main Menu:"
+        )
+    ), ["New Game", "Load Game", "Options", "Test", "Snake"], "Quit")
 }
 
 export async function beginCLI(options) {
@@ -44,19 +41,65 @@ export async function beginCLI(options) {
     var loopAgain = true
 
     while (loopAgain) {
-        clear()
-        
-        console.log(
-            chalk.red.bold.dim(
-                figlet.textSync('CL Kingdom', { horizontalLayout: 'full', font: "Small Slant" })
-                )
-        );
+        Terminal.clear()
 
-        console.log(
-            chalk.blue.bold.italic(
-                "Vers. " + jsonPackage.version
+        if (Terminal.getWidth() < 45) {
+            Terminal.writeOnNewLine(
+                Terminal.color.green(
+                    Terminal.decoration.bold(
+                        "CL Kingdom"
+                    )
+                )
             )
-        );
+        } else {
+
+            Terminal.write(Terminal.color.blue("    _                                   _"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.red("   ( )                                 ( )"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.green("  ( _ )   ________ ___      __   __   ( _ )"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.yellow("   |X|    | _____| | |      | | / /    |X|"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.blue("   |X|    | |      | |      | |/ /     |X|"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.red("   |X|    | |      | |      |   /      |X|"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.green("[=======] | |      | |      |   \\   [=======]"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.yellow("  | | |   | |      | |      | |\\ \\    | | |"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.blue("  | | |   | |____  | |____  | | \\ \\   | | |"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.red("  | | |   |______| |______| |_|  \\_\\  | | |"))
+            Terminal.newLine()
+            // Terminal.write(Terminal.color.green("  | | |                               | | | "))
+            // Terminal.newLine()
+            // Terminal.write(Terminal.color.yellow("  | | |                               | | | "))
+            // Terminal.newLine()
+            // Terminal.write(Terminal.color.blue("  | | |                               | | | "))
+            // Terminal.newLine()
+            // Terminal.write(Terminal.color.red("  | | |                               | | | "))
+            // Terminal.newLine()
+            // Terminal.write(Terminal.color.green("  | | |                               | | | "))
+            // Terminal.newLine()
+            Terminal.write(Terminal.color.yellow("  \\ | /                               \\ | /"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.blue("   \\ /                                 \\ /"))
+            Terminal.newLine()
+            Terminal.write(Terminal.color.red("    V                                   V"))
+        }
+        Terminal.newLine()
+        Terminal.writeOnNewLine(
+            Terminal.color.blue(
+                Terminal.decoration.bold(
+                    "Vers. " + jsonPackage.version
+                )
+            )
+        )
+        Terminal.newLine()
+
+        
             
 
         const choice = await mainMenu()
@@ -78,13 +121,26 @@ export async function beginCLI(options) {
             }
 
             case "Quit": {
-                clear()
-                console.log(
-                    chalk.green.bold.dim(
-                        "Be bidded adieu..."
+                Terminal.clear()
+                Terminal.writeOnNewLine(
+                    Terminal.color.green(
+                        Terminal.decoration.bold(
+                            "Be bidded adieu..."
                         )
-                );
+                    )
+                )
+                
                 loopAgain = false
+                break
+            }
+
+            case "Test": {
+                await test()
+                break
+            }
+
+            case "Snake": {
+                await Snake()
                 break
             }
 
