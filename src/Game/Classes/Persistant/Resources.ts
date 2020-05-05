@@ -1,6 +1,7 @@
-import { throws } from "assert"
+import Persistant from "../../Persistant"
 
-export class Resources {
+
+export class Resources implements Persistant {
 
     food: Number
 

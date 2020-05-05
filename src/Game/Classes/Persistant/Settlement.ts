@@ -1,8 +1,9 @@
 const uuidv4 = require("uuid/v4")
 import { Resources } from "./Resources"
 import { throws } from "assert"
+import Persistant from "../../Persistant"
 
-export class Settlement {
+export class Settlement implements Persistant {
     id: string
     name: string
 

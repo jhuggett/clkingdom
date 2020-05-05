@@ -9,6 +9,7 @@
     "compilerOptions": {
         "outDir": "build",
         "resolveJsonModule": true,
-        "noImplicitUseStrict": true
+        "noImplicitUseStrict": true,
+        "downlevelIteration": true
     }
 }

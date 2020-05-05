@@ -3,12 +3,14 @@ var clear = require('clear');
 
 import { saveGame } from "../Save/saveGame"
 
-import { GameHandler } from "./GameHandler"
-import { Kingdom } from "./Kingdom"
-import { Settlement } from "./Settlement"
+import { GameHandler } from "./Classes/GameHandler"
+import { Kingdom } from "./Classes/Persistant/Kingdom"
+import { Settlement } from "./Classes/Persistant/Settlement"
 
 import { begin } from "./Main Loop/begin"
 import Terminal from "../Terminal";
+import { GrowthMap } from "../Maps/GrowthMap";
+import GameMap from "./Classes/Persistant/GameMap";
 
 async function confirmNewGame() {
     return await Terminal.confirm("Begin a new game?")
@@ -29,7 +31,20 @@ export async function startGame() {
     const newKingdom = new Kingdom()
     newKingdom.settlements.push(newSettlement)
     newKingdom.name = newSettlement.name
-    const gameHandler = new GameHandler(newKingdom, 0, 0)
+
+    Terminal.clear()
+    Terminal.write(
+        Terminal.decoration.bold(
+            Terminal.color.blue(
+                "Generating map..."
+            )
+        )
+    )
+
+    const growthMap = new GrowthMap()
+    growthMap.growToSize(5000)
+
+    const gameHandler = new GameHandler(newKingdom, 0, 0, new GameMap(growthMap))
         
     await saveGame(gameHandler)
 

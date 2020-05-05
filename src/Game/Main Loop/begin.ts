@@ -1,4 +1,4 @@
-import { GameHandler } from "../GameHandler";
+import { GameHandler } from "../Classes/GameHandler";
 import * as clear from "clear"
 import { question } from "../../Misc/question"
 import * as chalk from "chalk"
