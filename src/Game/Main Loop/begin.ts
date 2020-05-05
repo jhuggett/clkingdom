@@ -1,4 +1,4 @@
-import { GameHandler } from "../GameHandler";
+import { GameHandler } from "../Classes/GameHandler";
 import * as clear from "clear"
 import { question } from "../../Misc/question"
 import * as chalk from "chalk"
@@ -79,6 +79,7 @@ async function loop(context: GameHandler, resume: boolean = true) {
     
     
     Terminal.clear()
+    Terminal.hideCaret()
     while (continueGame) {
         context = await tick(context)
         
@@ -118,6 +119,17 @@ function render(newContent: Array<Array<string>>, previousContent: Array<Array<s
                 if (char !== previousContent[y][x]) {
                     Terminal.move.moveTo(x + 1, y + 1)
                     Terminal.write(char)
+                }
+            })
+        })
+        previousContent.forEach( (row, y) => {
+            row.forEach( (char, x) => {
+                if (!newContent[y]) {
+                    Terminal.move.moveTo(0, y + 1)
+                    Terminal.clearLine()
+                } else if (!newContent[y][x]) {
+                    Terminal.move.moveTo(x + 1, y + 1)
+                    Terminal.write(" ")
                 }
             })
         })
@@ -192,7 +204,7 @@ function getRendering(context: GameHandler) : Array<Array<string>> {
     content.push([])
 
     content.push(
-        splitLine("Population:", [Terminal.color.green, Terminal.decoration.bold])
+        splitLine("Population: (" + context.kingdom.settlements[0].getPopulationCount() + ")", [Terminal.color.green, Terminal.decoration.bold])
     )
     
     getPopInTenths(context.kingdom.settlements[0].pop).forEach( (val) => {
@@ -232,9 +244,5 @@ async function tick(context: GameHandler) {
 
     }
 
-    
-
-
-    
     return context
 }

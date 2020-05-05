@@ -47,6 +47,7 @@ async function interactWith(save, manifests) {
 
         case "Load": {
             const context = loadGame(manifest.id)
+            
             await continueGame(context)
             return
         }

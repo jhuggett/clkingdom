@@ -1,8 +1,8 @@
 import fs = require("fs")
 
-import { GameHandler } from "../Game/GameHandler"
-import { Kingdom } from "../Game/Kingdom"
-import { Settlement } from "../Game/Settlement"
+import { GameHandler } from "../Game/Classes/GameHandler"
+import { Kingdom } from "../Game/Classes/Persistant/Kingdom"
+import { Settlement } from "../Game/Classes/Persistant/Settlement"
 
 import { prefixPath } from "../path.json"
 
@@ -10,6 +10,7 @@ function createDir(path) {
     try {
         fs.mkdirSync(prefixPath + path)
     } catch (error) {
+        
     }
 }
 
@@ -53,6 +54,15 @@ function writeKingdomsData(gameHandler: GameHandler) {
     writeSettlementsData(kingdomPath, kingdom)
 }
 
+function writeMapData(gameHandler: GameHandler) {
+    const path = "data/" + gameHandler.kingdom.id + "/map"
+    createDir(path)
+
+    const data = gameHandler.gameMap.getData()
+
+    writeFile(path + "/map.json", data)
+}
+
 function writeSettlementsData(path: String, kingdom: Kingdom) {
     const settlementsPath = path + "/settlements"
     createDir(settlementsPath)
@@ -70,6 +80,7 @@ export async function saveGame(gameHandler: GameHandler) {
     checkForDataFolder()    
     checkForSaveFolder(gameHandler.kingdom.id)    
     writeManifest(gameHandler)    
+    writeMapData(gameHandler)
     checkForKingdomsFolder(gameHandler.kingdom.id)    
     writeKingdomsData(gameHandler)    
 }

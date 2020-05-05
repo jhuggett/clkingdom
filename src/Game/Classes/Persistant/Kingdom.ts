@@ -1,8 +1,9 @@
 const uuidv4 = require("uuid/v4")
 
 import { Settlement } from "./Settlement";
+import Persistant from "../../Persistant";
 
-export class Kingdom {
+export class Kingdom implements Persistant {
     id: string
     settlements: Array<Settlement> = []
 
