@@ -156,7 +156,7 @@ function getRendering(context: MapViewContext) : Array<Array<string>> {
     range(0, height).forEach( y => {
         content.push(
             range(0, width).map( x => {
-                return Terminal.color.blue(".")
+                return Terminal.color.blue(Terminal.color.bgBlue(" "))
             })
         )
     })
@@ -168,13 +168,13 @@ function getRendering(context: MapViewContext) : Array<Array<string>> {
                 if (point.landType == LandType.land) {
                     content[point.coor.y - context.yOffset][point.coor.x - context.xOffset] = Terminal.color.green(
                         Terminal.decoration.bold(
-                            "O"
+                            Terminal.color.bgGreen(" ")
                         )
                     )
                 } else {
                     content[point.coor.y - context.yOffset][point.coor.x - context.xOffset] = Terminal.color.blue(
                         
-                            "."
+                            Terminal.color.bgBlue(" ")
                         
                     )
                 }
