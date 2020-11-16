@@ -6,6 +6,9 @@ export default class Colorer {
         yellow: "\u001b[33m",
         blue: "\u001b[34m",
 
+        bgBlue: "\u001b[44m",
+        bgGreen: "\u001b[42m",
+
         reset: "\u001b[0m"
     }
 
@@ -21,6 +24,14 @@ export default class Colorer {
     }
     static blue = (content: string) => {
         return Colorer.colors.blue + content + Colorer.colors.reset
+    }
+
+    static bgBlue = (content: string) => {
+        return Colorer.colors.bgBlue + content + Colorer.colors.reset
+    }
+
+    static bgGreen = (content: string) => {
+        return Colorer.colors.bgGreen + content + Colorer.colors.reset
     }
 
 

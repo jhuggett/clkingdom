@@ -12,7 +12,7 @@ export class Terminal {
         });
     }
 
-    
+
 
     static pressAnyKeyToContinue = async (message?: string) => {
         process.stdin.setRawMode(true)
