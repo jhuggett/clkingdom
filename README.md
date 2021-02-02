@@ -6,3 +6,7 @@ A kingdom in your command line.
 
 ## Installation
 To run this game, install it globally: `npm install -g clkingdom`
+
+
+
+Currently discontinued, but may be revived at a later date.
